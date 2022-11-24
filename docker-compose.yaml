@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  welcomebot:
+    container_name: welcomebot
+    build: .
+    environment:
+      MASTO_TOKEN: "${MASTO_TOKEN}"
+    restart: unless-stopped
