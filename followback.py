@@ -12,6 +12,7 @@ masto = Mastodon(
 
 donotunfollowListID = 1048
 doesnotfollowmeListID = 1097
+followtreshold = 10
 
 followsme=[]
 ifollow=[]
@@ -30,7 +31,7 @@ for i in allfollowing:
 
 tofollow=[x for x in followsme if x not in ifollow]
 for user in allfollowers:
-  if user['statuses_count'] > 10 and "missing.png" not in user['avatar'] and user['id'] in tofollow:
+  if user['statuses_count'] > followtreshold and "missing.png" not in user['avatar'] and user['id'] in tofollow:
     try:
       result=masto.account_follow(user['id'])
       # print("Followed ", user['username'])
@@ -55,7 +56,7 @@ for user in allfollowing:
         masto.account_unfollow(user['id'])
         # print("Unfollowed user ", user['username'], ".")
         for user in allfollowers:
-          if user['statuses_count'] < 10 and "missing.png" in user['avatar']:
+          if user['statuses_count'] < followtreshold and "missing.png" in user['avatar']:
             masto.account_unfollow(user['id'])
             print(user['username'])
     except:
