@@ -1,6 +1,8 @@
 import os
 from mastodon import Mastodon
 
+mode = "addtolist"
+# mode = "unfollow"
 instance = 'https://mastodon.nl'
 
 masto = Mastodon(
@@ -8,8 +10,13 @@ masto = Mastodon(
   api_base_url = instance
 )
 
+donotunfollowListID = 1048
+doesnotfollowmeListID = 1097
+
 followsme=[]
 ifollow=[]
+donotunfollow = []
+doesnotfollowme = []
 
 followers = masto.account_followers(masto.me()['id'])
 allfollowers=masto.fetch_remaining(followers)
@@ -26,6 +33,27 @@ for user in allfollowers:
   if user['statuses_count'] > 10 and "missing.png" not in user['avatar'] and user['id'] in tofollow:
     try:
       result=masto.account_follow(user['id'])
-      print("Followed ", user['username'])
+      # print("Followed ", user['username'])
     except:
-      print("Could not follow ", user['username'])
+      # print("Could not follow ", user['username'])
+      pass
+
+for i in masto.list_accounts(donotunfollowListID):
+  donotunfollow.append(i['id'])
+
+for i in masto.list_accounts(doesnotfollowmeListID):
+  masto.list_accounts_delete(doesnotfollowmeListID, i['id'])
+
+tounfollow=[x for x in ifollow if x not in followsme]
+for user in allfollowing:
+  if user['id'] not in donotunfollow and user['id'] in tounfollow:
+    try:
+      if mode == "addtolist":
+        masto.list_accounts_add(doesnotfollowmeListID, user['id'])
+        # print("User ", user['username'], " added to list")
+      elif mode == "unfollow":
+        masto.account_unfollow(user['id'])
+        # print("Unfollowed user ", user['username'], ".")
+    except:
+      # print("User ", user['username'], " could not be processed")
+      pass
