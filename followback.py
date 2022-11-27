@@ -54,6 +54,11 @@ for user in allfollowing:
       elif mode == "unfollow":
         masto.account_unfollow(user['id'])
         # print("Unfollowed user ", user['username'], ".")
+        for user in allfollowers:
+          if user['statuses_count'] < 25 and "missing.png" in user['avatar']:
+            masto.account_unfollow(user['id'])
+            print(user['username'])
     except:
       # print("User ", user['username'], " could not be processed")
       pass
+
