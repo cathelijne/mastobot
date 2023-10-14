@@ -13,7 +13,13 @@ if os.environ['MASTO_TOKEN'] == "setme":
   print("docker run -e MASTO_TOKEN=YOUR_TOKEN_HERE mastobot:latest")
   exit()
 
-instance = 'https://mastodon.nl'
+if os.environ['INSTANCE'] == "setme":
+  print("You have to set $INSTANCE to run this container")
+  print("Run the container with:")
+  print("docker run -e INSTANCE=https://my.instance mastobot:latest")
+  exit()
+
+instance = os.environ['INSTANCE']
 
 masto = Mastodon(
   access_token = os.environ['MASTO_TOKEN'],
@@ -23,6 +29,7 @@ masto = Mastodon(
 global text1
 global text2
 
+# TODO: Make this configurable
 text1 = "Hoi @"
 text2 = """, welkom op mastodon.nl
 

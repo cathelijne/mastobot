@@ -5,4 +5,5 @@ services:
     build: .
     environment:
       MASTO_TOKEN: "${MASTO_TOKEN}"
+      INSTANCE: "${INSTANCE}"
     restart: unless-stopped

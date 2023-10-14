@@ -8,6 +8,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 ENV MASTO_TOKEN setme
+ENV INSTANCE setme
 ENV PYTHONUNBUFFERED 1
 CMD [ "python", "./bot.py" ]
 
