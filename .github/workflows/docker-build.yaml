@@ -9,8 +9,11 @@ jobs:
     permissions:
       contents: read
       packages: write
-
     steps:
+      - name: Set up ssh key
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+            ssh-private-key: ${{ secrets.ID_GITHUB_MASTOBOT }}
       - name: Checkout
         uses: actions/checkout@v4
       - name: Set up Docker Buildx
