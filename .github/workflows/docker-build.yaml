@@ -2,7 +2,7 @@ name: Docker Build
 env:
   IMAGE_NAME: ${{ github.repository }}
   REGISTRY: ghcr.io
-on: [push]
+on: [tag]
 jobs:
   docker-build:
     runs-on: ubuntu-latest
